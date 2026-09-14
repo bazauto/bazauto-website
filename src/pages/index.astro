@@ -13,11 +13,13 @@ const [posts, projects, decisions] = await Promise.all([getPosts(), getProjects(
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class="hero">
 		<div class="intro">
-			<p class="label">Westgate Hollow</p>
+			<p class="label">Westgate Hollow Yard · OO gauge</p>
 			<h1>A model railway, and the control system that runs it</h1>
 			<p class="lede">
-				A working record of what I'm building, how far it has got, and the reasons behind the design decisions.
+				Westgate Hollow is a small, fictional test goods yard. It's where I'm proving the control system, trying out scenic
+				techniques and getting practice in, before moving on to a full-room layout.
 			</p>
+			<p class="lede">This site is the working record of what I'm building and why.</p>
 		</div>
 		<div class="plate diagram-plate">
 			<TrackDiagram />
@@ -64,6 +66,9 @@ const [posts, projects, decisions] = await Promise.all([getPosts(), getProjects(
 		font-size: 1.15rem;
 		color: var(--ink-muted);
 		margin: 0;
+	}
+	.lede + .lede {
+		margin-top: 0.75rem;
 	}
 	.diagram-plate {
 		padding: 1.5rem 1rem;

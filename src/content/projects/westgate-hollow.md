@@ -1,6 +1,6 @@
 ---
 title: Westgate Hollow Yard
-summary: A small OO gauge goods yard, built as a test layout to prove the control system and practise scenic techniques before a full-room layout.
+summary: A small, fictional OO gauge goods yard, built as a test layout to prove the control system and practise scenic techniques before a full-room layout.
 status: active
 platform: OO gauge · test layout
 order: 0
@@ -20,6 +20,9 @@ Westgate Hollow Yard is deliberately small. It's a **test layout**, and it has t
 The reasoning is recorded as a decision: [build a small test layout first](/decisions/test-layout-first/).
 
 ## The story
+
+**Westgate Hollow Yard is fictional.** It isn't based on any prototype; the village, the yard, its history and the
+farms below are all invented.
 
 Westgate Hollow Yard serves the village of **Hollowgate**, in West Yorkshire, in the early British Railways era.
 
@@ -77,7 +80,8 @@ A two-road fiddle yard feeds a single entry line into the goods yard, which fans
 | Part | Used for |
 |---|---|
 | **Cobalt iP Digital** point motors | Commanded over DCC accessory addresses. They can't report their own position, so it will be read separately from their `S2` changeover contacts; the firmware for that is built but the wiring isn't in yet. See [why command and feedback are separate](/decisions/point-command-and-feedback-separate/). |
-| **LM-iD.1** current detectors | Block occupancy. |
+| **LM-iD.1** current detectors | Block occupancy today. They're active low, so a broken wire reads as a clear block. |
+| **[Block detector](/projects/block-detection/)** boards | Home-designed, active-high replacement detectors, so a broken wire reads as occupied. Revision 1.0 is on order. |
 | **IR reflective sensors** | Fitted where a train should stand, such as the goods shed loading bank, so automation can stop on a beam. |
 
 The control system around it is described on the other [project pages](/projects/).

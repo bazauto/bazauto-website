@@ -23,7 +23,8 @@ list, deploy.
 
 - Unwired track reads `unknown` in the orchestrator, not falsely empty.
 - A related weakness is **accepted and recorded**: a *broken* wire on an installed sensor also floats up and reads
-  `clear`, and re-assertion can't catch it because the node is alive and still publishing (#9, reopened).
+  `clear`, and re-assertion can't catch it because the node is alive and still publishing (#9, reopened). That
+  weakness is what [the active-high block detector](/decisions/active-high-block-detector/) is designed to remove.
 
 Source: [`layout-feedback` CLAUDE.md](https://github.com/bazauto/layout-feedback/blob/main/CLAUDE.md) and
 [`docs/pin-allocation.md`](https://github.com/bazauto/layout-feedback/blob/main/docs/pin-allocation.md).

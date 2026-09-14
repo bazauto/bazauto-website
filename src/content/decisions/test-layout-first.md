@@ -1,12 +1,15 @@
 ---
 title: Build a small test layout before a full-room layout
 summary: Westgate Hollow Yard is a deliberately small OO gauge goods yard for proving the control system and practising, ahead of a larger full-room layout.
-date: 2026-09-14
+date: 2024-04-27
 status: accepted
 projects: [westgate-hollow]
 ---
 
 ## Context
+
+This was decided around the time work on [PicoDCC](/projects/picodcc/) started. Its first commit was 2024-04-27,
+which is the date used here.
 
 The end goal is a larger **full-room layout**. Getting there means building a control system from scratch (a
 command station, sensor nodes, an orchestrator and a throttle) and a lot of hands-on work: baseboards, track,

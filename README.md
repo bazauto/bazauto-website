@@ -43,3 +43,15 @@ edge before committing; the repo stores whatever you give it.
 A signal box mimic panel. In light mode it's a pale painted panel with black track lines; in dark mode the same panel
 with the lights off. It follows the OS colour scheme. All colours are tokens at the top of `src/styles/global.css`,
 which also documents the fixed lamp colour meanings.
+
+## Licence
+
+Two licences, split by what the material is:
+
+| Material | Licence |
+|---|---|
+| **Content**: everything under `src/content/` (log posts, project pages, decisions, FAQ), and any photos or images | [CC BY 4.0](LICENSE-CONTENT.txt): reuse it, with credit to Paul Barrett |
+| **Code**: everything else (components, pages, styles, config, scripts, docs) | [MIT](LICENSE) |
+
+Copyright © 2026 Paul Barrett. Third-party material, notably the OFL-licensed fonts the site serves, is listed in
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

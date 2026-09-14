@@ -21,6 +21,10 @@ the owner first, so favour accuracy and reasoning over polish.
   meanings are fixed (documented at the top of that file). Every colour must work in both light and dark schemes.
 - The site name is **BAZAutomation**, exactly that casing, with no space. Never apply `text-transform` to it,
   and never write it as "Baz Automation".
+- **Licensing is split:** `src/content/` and any photos are CC BY 4.0 (`LICENSE-CONTENT.txt`); all other code is MIT
+  (`LICENSE`). Adding or changing a font, or any other third-party asset the site serves, means checking its licence
+  and updating `THIRD-PARTY-NOTICES.md` (and `public/licenses/OFL.txt` for OFL fonts) in the same PR. Never add a
+  photo or image you don't have the rights to; the owner's photos only, unless a licence says otherwise.
 - Keep it static and JavaScript-free unless a feature truly needs client JS.
 - Astro 7 is newer than most training data. When unsure about an API, check `node_modules/astro` types or
   https://docs.astro.build rather than guessing.

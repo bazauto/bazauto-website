@@ -2,6 +2,7 @@
 import { GITHUB_ORG, SITE_TITLE } from '../consts';
 
 const year = new Date().getFullYear();
+const REPO = `${GITHUB_ORG}/bazauto-website`;
 ---
 
 <footer class="site-footer">
@@ -11,6 +12,11 @@ const year = new Date().getFullYear();
 			<li><a href="/rss.xml">RSS</a></li>
 			<li><a href={GITHUB_ORG}>GitHub</a></li>
 		</ul>
+		<p class="licence">
+			Writing and photos <a href={`${REPO}/blob/main/LICENSE-CONTENT.txt`}>CC BY 4.0</a>{' · Code '}<a
+				href={`${REPO}/blob/main/LICENSE`}>MIT</a
+			>{' · Fonts '}<a href="/licenses/OFL.txt">SIL OFL 1.1</a>
+		</p>
 	</div>
 </footer>
 
@@ -51,5 +57,19 @@ const year = new Date().getFullYear();
 	}
 	a:hover {
 		color: var(--accent);
+	}
+	.licence {
+		flex-basis: 100%;
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--ink-muted);
+	}
+	.licence a {
+		font-family: inherit;
+		font-size: inherit;
+		text-transform: none;
+		letter-spacing: normal;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
 	}
 </style>

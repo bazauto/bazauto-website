@@ -1,0 +1,12 @@
+export const SITE_TITLE = 'Baz Automation';
+export const SITE_DESCRIPTION =
+	'Building the Westgate Hollow model railway and the control system that runs it: progress, projects and the reasons behind the decisions.';
+export const GITHUB_ORG = 'https://github.com/bazauto';
+
+export const NAV = [
+	{ href: '/projects/', label: 'Projects' },
+	{ href: '/decisions/', label: 'Decisions' },
+	{ href: '/log/', label: 'Log' },
+	{ href: '/faq/', label: 'FAQ' },
+	{ href: '/about/', label: 'About' },
+] as const;

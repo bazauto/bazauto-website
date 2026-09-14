@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageTitle from '../components/PageTitle.astro';
+import Base from '../layouts/Base.astro';
+
+const entries = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const items = await Promise.all(entries.map(async (e) => ({ entry: e, ...(await render(e)) })));
+const description = 'Questions that come up about the layout and the control system.';
+---
+
+<Base title="FAQ" description={description}>
+	<PageTitle kicker="FAQ" title="Frequently asked questions" lede={description} />
+	<div class="prose">
+		{items.length === 0 && <p class="muted">No questions answered yet.</p>}
+		{
+			items.map(({ entry, Content }) => (
+				<section class="qa" id={entry.id}>
+					<h2>
+						<a href={`#${entry.id}`}>{entry.data.question}</a>
+					</h2>
+					<Content />
+				</section>
+			))
+		}
+	</div>
+</Base>
+
+<style>
+	.qa {
+		padding-block: 0.5rem 1rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	.qa h2 {
+		font-size: 1.3rem;
+		margin-top: 1.25rem;
+	}
+	.qa h2 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+	.qa h2 a:hover {
+		color: var(--accent);
+	}
+</style>

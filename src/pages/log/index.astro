@@ -1,0 +1,18 @@
+---
+import PageTitle from '../../components/PageTitle.astro';
+import PostList from '../../components/PostList.astro';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/content';
+
+const posts = await getPosts();
+const description = 'Progress notes, write-ups and anything interesting along the way.';
+---
+
+<Base title="Log" description={description}>
+	<PageTitle kicker="Build log" title="Log" lede={description}>
+		<p class="muted">Also available as an <a href="/rss.xml">RSS feed</a>.</p>
+	</PageTitle>
+	<div class="prose">
+		<PostList posts={posts} />
+	</div>
+</Base>

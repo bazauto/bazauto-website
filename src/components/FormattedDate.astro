@@ -1,0 +1,11 @@
+---
+interface Props {
+	date: Date;
+}
+
+const { date } = Astro.props;
+// ISO dates: unambiguous, sort visually, and suit a logbook.
+const iso = date.toISOString().slice(0, 10);
+---
+
+<time class="mono" datetime={iso}>{iso}</time>

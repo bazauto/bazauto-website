@@ -1,0 +1,63 @@
+---
+/**
+ * Panel indicator lamp. The colour meanings are fixed site-wide; see the
+ * header of global.css.
+ */
+export type LampColour = 'green' | 'amber' | 'red' | 'white' | 'off';
+
+interface Props {
+	colour: LampColour;
+	/** Accessible text. The lamp alone never carries the meaning. */
+	label: string;
+	/** Show the label next to the lamp. */
+	showLabel?: boolean;
+}
+
+const { colour, label, showLabel = false } = Astro.props;
+---
+
+<span class="lamp-wrap">
+	<span class={`lamp lamp-${colour}`} aria-hidden="true"></span>
+	<span class={showLabel ? 'label lamp-text' : 'sr-only'}>{label}</span>
+</span>
+
+<style>
+	.lamp-wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		vertical-align: middle;
+	}
+	.lamp {
+		--c: var(--lamp-off);
+		width: 0.7rem;
+		height: 0.7rem;
+		flex: none;
+		border-radius: 50%;
+		background: var(--c);
+		border: 1px solid color-mix(in srgb, var(--c) 60%, #000);
+		/* Glow only where --lamp-glow is 1, i.e. the dark scheme. */
+		box-shadow: 0 0 calc(var(--lamp-glow) * 8px) calc(var(--lamp-glow) * 1px)
+			color-mix(in srgb, var(--c) calc(var(--lamp-glow) * 70%), transparent);
+	}
+	.lamp-green {
+		--c: var(--lamp-green);
+	}
+	.lamp-amber {
+		--c: var(--lamp-amber);
+	}
+	.lamp-red {
+		--c: var(--lamp-red);
+	}
+	.lamp-white {
+		--c: var(--lamp-white);
+		border-color: var(--track-dim);
+	}
+	.lamp-off {
+		--c: var(--lamp-off);
+		box-shadow: none;
+	}
+	.lamp-text {
+		font-size: 0.75rem;
+	}
+</style>

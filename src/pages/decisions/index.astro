@@ -1,0 +1,35 @@
+---
+import DecisionList from '../../components/DecisionList.astro';
+import Lamp from '../../components/Lamp.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import Base from '../../layouts/Base.astro';
+import { getDecisions } from '../../lib/content';
+
+const decisions = await getDecisions();
+const description =
+	'Why things are built the way they are: what was chosen, what else was on the table, and what tipped it.';
+---
+
+<Base title="Decisions" description={description}>
+	<PageTitle kicker="Design decisions" title="Decisions" lede={description}>
+		<ul class="key">
+			<li><Lamp colour="green" label="Accepted" showLabel /></li>
+			<li><Lamp colour="amber" label="Proposed" showLabel /></li>
+			<li><Lamp colour="red" label="Superseded" showLabel /></li>
+		</ul>
+	</PageTitle>
+	<div class="prose">
+		<DecisionList decisions={decisions} />
+	</div>
+</Base>
+
+<style>
+	.key {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		list-style: none;
+		padding: 0;
+		margin: 1.25rem 0 0;
+	}
+</style>

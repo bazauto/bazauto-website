@@ -1,0 +1,112 @@
+---
+import { NAV, SITE_TITLE } from '../consts';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="site-header">
+	<div class="inner">
+		<a class="brand" href="/">
+			<svg class="brand-mark" viewBox="0 0 28 16" aria-hidden="true">
+				<path d="M1 12 H10 L18 4 H27" />
+				<path d="M10 12 H27" />
+				<circle cx="14" cy="8" r="2.4" />
+			</svg>
+			<span>{SITE_TITLE}</span>
+		</a>
+		<nav aria-label="Main">
+			<ul>
+				{
+					NAV.map((item) => (
+						<li>
+							<a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+								<span class="nav-lamp" aria-hidden="true" />
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		background: var(--panel-raised);
+		border-bottom: 1px solid var(--rule);
+	}
+	.inner {
+		max-width: var(--wide);
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+		padding-block: 0.75rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem 1.5rem;
+	}
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		color: var(--ink);
+		text-decoration: none;
+		font-family: var(--font-label);
+		font-weight: 600;
+		font-size: 1.15rem;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+	}
+	.brand-mark {
+		width: 2rem;
+		height: auto;
+		fill: none;
+		stroke: var(--track);
+		stroke-width: 2;
+	}
+	.brand-mark circle {
+		fill: var(--lamp-green);
+		stroke: none;
+	}
+	nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.25rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	nav a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding-block: 0.35rem;
+		color: var(--ink-muted);
+		text-decoration: none;
+		font-family: var(--font-label);
+		font-weight: 500;
+		font-size: 0.95rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+	nav a:hover {
+		color: var(--ink);
+	}
+	/* Unlit lamp per item; lit on the current section. */
+	.nav-lamp {
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 50%;
+		background: var(--lamp-off);
+	}
+	nav a[aria-current='page'] {
+		color: var(--ink);
+	}
+	nav a[aria-current='page'] .nav-lamp {
+		background: var(--route);
+		box-shadow: 0 0 calc(var(--lamp-glow) * 6px) var(--route);
+	}
+</style>

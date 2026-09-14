@@ -1,0 +1,20 @@
+---
+import PageTitle from '../components/PageTitle.astro';
+import Base from '../layouts/Base.astro';
+
+const description = 'What this site is for.';
+---
+
+<Base title="About" description={description}>
+	<PageTitle kicker="About" title="About this site" />
+	<div class="prose">
+		<p>
+			This is a working record of the Westgate Hollow model railway and the control system I'm building for it. It's
+			written mainly for me: what I did, when, and why I made each decision.
+		</p>
+		<p>
+			The <a href="/log/">log</a> tracks progress. The <a href="/projects/">projects</a> pages describe each part of the
+			system. The <a href="/decisions/">decisions</a> record the design choices and the reasoning behind them.
+		</p>
+	</div>
+</Base>

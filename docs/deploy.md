@@ -5,14 +5,15 @@ Cloudflare serves the files in `dist/` directly. Deployment is Git-driven throug
 
 | Event | What happens |
 |---|---|
-| PR opened or updated | GitHub Actions runs `astro check` and `astro build`. Workers Builds uploads a **preview version** and posts its URL on the PR. |
+| PR opened or updated | GitHub Actions runs `astro check` and `astro build`. Workers Builds uploads a **preview version**, served at its own `workers.dev` preview URL. The link is in the **Workers Builds** check on the PR, and in the Worker's **Deployments** tab. |
 | Merge to `main` | Workers Builds builds and runs `wrangler deploy`, which makes it live on `www.bazautomation.com`. |
 
 No Cloudflare credentials are stored in GitHub. Cloudflare pulls from the repo through its GitHub app.
 
 ## Files involved
 
-- `wrangler.jsonc`: Worker name, assets directory, 404 handling, custom domain.
+- `wrangler.jsonc`: Worker name, assets directory, 404 handling, custom domain, preview URLs. This file is applied
+  on every production deploy, so a setting changed only in the dashboard is reverted at the next merge.
 - `public/_headers`: cache and security headers, applied by Cloudflare's asset serving.
 - `.node-version`: Node version for both Workers Builds and GitHub Actions.
 - `.github/workflows/ci.yml`: the PR gate.
@@ -34,7 +35,10 @@ No Cloudflare credentials are stored in GitHub. Cloudflare pulls from the repo t
    | Root directory | `/` |
 
 4. Under the Worker's **Settings → Build → Branch control**, make sure **builds for non-production branches**
-   are enabled. This produces the per-PR preview URLs.
+   are enabled. That builds each PR branch and uploads a version, but a version only gets a URL because
+   `wrangler.jsonc` sets `"preview_urls": true` (Wrangler's default is `false`). The setting takes effect at the
+   next **production** deploy, so a branch built before it reached `main` has no URL. Push to the branch again
+   to rebuild it.
 5. **Custom domain.** `wrangler.jsonc` declares `www.bazautomation.com` as a custom domain, so the first production
    deploy creates the DNS record and certificate. If a `www` DNS record already exists in the zone, the deploy
    fails. Delete the old record first, or attach the domain by hand under **Settings → Domains & Routes**.

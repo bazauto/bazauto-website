@@ -10,5 +10,9 @@
 		"not_found_handling": "404-page",
 		"html_handling": "force-trailing-slash"
 	},
-	"routes": [{ "pattern": "www.bazautomation.com", "custom_domain": true }]
+	"routes": [{ "pattern": "www.bazautomation.com", "custom_domain": true }],
+	// Serve every uploaded version at <version>-bazauto-website.<subdomain>.workers.dev, which is
+	// what gives a PR its preview URL. Wrangler defaults this to false, and each production deploy
+	// re-applies this file, so a dashboard toggle alone would be switched back off on the next merge.
+	"preview_urls": true
 }

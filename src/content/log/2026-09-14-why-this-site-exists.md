@@ -2,12 +2,16 @@
 title: Why this site exists
 description: A place to record what I'm building on the layout, and why.
 pubDate: 2026-09-14
+updatedDate: 2026-09-14
 tags: [meta]
 ---
 
-The Westgate Hollow control system has grown into four separate projects: an orchestration backend and operator UI,
-a DCC command station, a set of feedback nodes and a handheld throttle. Each has its own repository, and the commit
-history records _what_ changed, but not _why_ I went one way rather than another.
+The Westgate Hollow control system has grown into five separate projects: an orchestration backend and operator UI,
+a DCC command station, a set of feedback nodes, a handheld throttle, and a block detector board. Each has its own
+repository, and the commit history records _what_ changed, but not _why_ I went one way rather than another.
+
+> **Correction:** this post first said four projects. It left out the
+> [block detector](/projects/block-detection/), which was already being designed when this was written.
 
 This site is where that goes. It's mostly a record for myself:
 

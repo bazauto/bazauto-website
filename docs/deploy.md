@@ -42,10 +42,20 @@ No Cloudflare credentials are stored in GitHub. Cloudflare pulls from the repo t
 5. **Custom domain.** `wrangler.jsonc` declares `www.bazautomation.com` as a custom domain, so the first production
    deploy creates the DNS record and certificate. If a `www` DNS record already exists in the zone, the deploy
    fails. Delete the old record first, or attach the domain by hand under **Settings → Domains & Routes**.
-6. **Apex redirect.** In the `bazautomation.com` zone: **Rules → Redirect Rules → Create rule** using the
-   "Redirect from root to WWW" template, which gives a 301 from `bazautomation.com/*` to
-   `https://www.bazautomation.com/${1}` with the query string preserved. The apex needs a proxied DNS record for
-   the rule to fire. A proxied `AAAA` record pointing to `100::` is the usual placeholder.
+6. **Apex redirect.** The site's canonical host is `www`, so the bare domain redirects to it. The dashboard's
+   template for this may only offer the opposite direction ("Redirect from WWW to root"), so create a custom rule
+   in the `bazautomation.com` zone under **Rules → Redirect Rules → Create rule**:
+
+   | Setting | Value |
+   |---|---|
+   | When incoming requests match | Hostname equals `bazautomation.com` |
+   | Then | Dynamic redirect |
+   | Expression | `concat("https://www.bazautomation.com", http.request.uri.path)` |
+   | Status code | 301 |
+   | Preserve query string | On |
+
+   The bare domain needs a **proxied** DNS record, or requests never reach Cloudflare for the rule to act on. A
+   proxied `AAAA` record for `@` pointing to `100::` is the usual placeholder.
 7. **GitHub branch protection** on `main`: require a pull request, and require the `Check and build` status check.
    This is what lets auto-merge land PRs only when CI is green.
 

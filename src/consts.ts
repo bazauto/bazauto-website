@@ -1,7 +1,7 @@
 /** Exact casing matters: rendered as written, never text-transformed. */
 export const SITE_TITLE = 'BAZAutomation';
 export const SITE_DESCRIPTION =
-	'Building the Westgate Hollow model railway and the control system that runs it: progress, projects and the reasons behind the decisions.';
+	'Westgate Hollow Yard, a small OO gauge test layout, and the control system being proven on it: progress, projects and the reasons behind the decisions.';
 export const GITHUB_ORG = 'https://github.com/bazauto';
 
 export const NAV = [

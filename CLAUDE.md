@@ -19,6 +19,8 @@ the owner first, so favour accuracy and reasoning over polish.
 - Content schemas live in `src/content.config.ts`. Change a schema and the README's content table together.
 - Styling uses only the tokens in `src/styles/global.css`. No hard-coded colours in components. Lamp colour
   meanings are fixed (documented at the top of that file). Every colour must work in both light and dark schemes.
+- The site name is **BAZAutomation**, exactly that casing, with no space. Never apply `text-transform` to it,
+  and never write it as "Baz Automation".
 - Keep it static and JavaScript-free unless a feature truly needs client JS.
 - Astro 7 is newer than most training data. When unsure about an API, check `node_modules/astro` types or
   https://docs.astro.build rather than guessing.

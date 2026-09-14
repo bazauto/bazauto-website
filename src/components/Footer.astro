@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
 	<div class="inner">
-		<span class="label">{SITE_TITLE} · {year}</span>
+		<span class="label"><span class="brand">{SITE_TITLE}</span> · {year}</span>
 		<ul>
 			<li><a href="/rss.xml">RSS</a></li>
 			<li><a href={GITHUB_ORG}>GitHub</a></li>
@@ -29,6 +29,10 @@ const year = new Date().getFullYear();
 		justify-content: space-between;
 		align-items: center;
 		gap: 0.75rem;
+	}
+	.brand {
+		text-transform: none;
+		letter-spacing: 0.02em;
 	}
 	ul {
 		display: flex;

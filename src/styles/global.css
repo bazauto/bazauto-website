@@ -1,0 +1,314 @@
+/*
+  Baz Automation: signal box mimic panel.
+
+  Light scheme: a pale, painted panel with black track lines, as on a real
+  relay-interlocking panel. Dark scheme: the same panel with the lights off,
+  charcoal with lit routes and lamp colours. Every colour is a token here, and
+  components use only tokens.
+
+  Lamp meanings are fixed site-wide:
+    green  = active / accepted
+    amber  = paused / proposed
+    red    = superseded (and anything blocked)
+    off    = planned
+    white  = done
+*/
+
+:root {
+	color-scheme: light dark;
+
+	--panel: #e4e2da;
+	--panel-raised: #efede6;
+	--panel-sunken: #d8d5cb;
+	--ink: #1b1f22;
+	--ink-muted: #545b61;
+	--rule: #bfbbaf;
+	--track: #25292c;
+	--track-dim: #9d9a90;
+	--route: #b35f00;
+
+	--accent: #8a4700;
+	--accent-hover: #5e3000;
+
+	--lamp-green: #1d8048;
+	--lamp-amber: #c27400;
+	--lamp-red: #bb2d27;
+	--lamp-white: #f7f5ee;
+	--lamp-off: #b9b6ab;
+	--lamp-glow: 0;
+
+	--code-bg: #f7f6f1;
+
+	--measure: 44rem;
+	--wide: 68rem;
+	--gutter: clamp(1rem, 4vw, 2rem);
+	--radius: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--panel: #15181b;
+		--panel-raised: #1d2125;
+		--panel-sunken: #0f1113;
+		--ink: #e2e5e7;
+		--ink-muted: #98a1a9;
+		--rule: #2c3237;
+		--track: #58616a;
+		--track-dim: #353c42;
+		--route: #ffb000;
+
+		--accent: #ffb000;
+		--accent-hover: #ffd166;
+
+		--lamp-green: #3ddc84;
+		--lamp-amber: #ffb000;
+		--lamp-red: #ff5a52;
+		--lamp-white: #f4f1e6;
+		--lamp-off: #3a4046;
+		--lamp-glow: 1;
+
+		--code-bg: #0f1113;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--panel);
+	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1.0625rem;
+	line-height: 1.65;
+	overflow-wrap: break-word;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	flex: 1;
+	width: 100%;
+	max-width: var(--wide);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+	padding-block: 2rem 4rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-label);
+	font-weight: 600;
+	line-height: 1.15;
+	letter-spacing: 0.01em;
+	margin: 2em 0 0.5em;
+	text-wrap: balance;
+}
+h1 {
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	margin-top: 0;
+}
+h2 {
+	font-size: 1.6rem;
+}
+h3 {
+	font-size: 1.25rem;
+}
+
+p,
+ul,
+ol {
+	margin: 0 0 1em;
+}
+
+a {
+	color: var(--accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+}
+a:hover {
+	color: var(--accent-hover);
+}
+
+:focus-visible {
+	outline: 2px solid var(--route);
+	outline-offset: 2px;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid var(--rule);
+	margin: 2.5rem 0;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+code,
+kbd,
+pre {
+	font-family: var(--font-mono);
+	font-size: 0.9em;
+}
+:not(pre) > code {
+	background: var(--panel-sunken);
+	padding: 0.1em 0.35em;
+	border-radius: var(--radius);
+}
+pre {
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--rule);
+	border-radius: var(--radius);
+	overflow-x: auto;
+	line-height: 1.5;
+}
+
+/* Shiki dual themes (defaultColor: false emits --shiki-light / --shiki-dark). */
+.astro-code,
+.astro-code span {
+	color: var(--shiki-light);
+	background-color: var(--code-bg);
+}
+.astro-code span {
+	background-color: transparent;
+}
+@media (prefers-color-scheme: dark) {
+	.astro-code,
+	.astro-code span {
+		color: var(--shiki-dark);
+	}
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95em;
+}
+th,
+td {
+	text-align: left;
+	padding: 0.5rem 0.75rem;
+	border-bottom: 1px solid var(--rule);
+	vertical-align: top;
+}
+th {
+	font-family: var(--font-label);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	font-size: 0.85em;
+	color: var(--ink-muted);
+}
+
+blockquote {
+	margin: 1.5em 0;
+	padding: 0.25em 0 0.25em 1.25em;
+	border-left: 3px solid var(--route);
+	color: var(--ink-muted);
+}
+
+/* ---------- shared pieces ---------- */
+
+/** Engraved panel label: small caps-style condensed text. */
+.label {
+	font-family: var(--font-label);
+	font-weight: 600;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--ink-muted);
+}
+
+.mono {
+	font-family: var(--font-mono);
+	font-size: 0.875em;
+}
+
+.muted {
+	color: var(--ink-muted);
+}
+
+/** A raised sub-panel with a thin bezel. */
+.plate {
+	background: var(--panel-raised);
+	border: 1px solid var(--rule);
+	border-radius: var(--radius);
+	padding: 1.25rem;
+}
+
+.prose {
+	max-width: var(--measure);
+}
+.prose > :first-child {
+	margin-top: 0;
+}
+.prose img,
+.prose figure {
+	display: block;
+	margin: 2rem 0;
+	border-radius: var(--radius);
+}
+.prose figcaption {
+	font-size: 0.9rem;
+	color: var(--ink-muted);
+	margin-top: 0.5rem;
+}
+.prose li + li {
+	margin-top: 0.25em;
+}
+
+.table-wrap {
+	overflow-x: auto;
+}
+
+.section-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+	border-bottom: 1px solid var(--rule);
+	padding-bottom: 0.4rem;
+	margin: 3rem 0 1.25rem;
+}
+.section-head h2 {
+	margin: 0;
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+.section-head a {
+	font-family: var(--font-label);
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation: none !important;
+		transition: none !important;
+	}
+}

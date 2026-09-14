@@ -1,0 +1,86 @@
+---
+import { type CollectionEntry, getEntries, getEntry, render } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Lamp from '../../components/Lamp.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import Base from '../../layouts/Base.astro';
+import { getDecisions } from '../../lib/content';
+import { decisionLamp } from '../../lib/status';
+
+export async function getStaticPaths() {
+	const decisions = await getDecisions();
+	return decisions.map((decision) => ({ params: { slug: decision.id }, props: { decision } }));
+}
+
+interface Props {
+	decision: CollectionEntry<'decisions'>;
+}
+
+const { decision } = Astro.props;
+const { title, summary, date, status } = decision.data;
+const projects = await getEntries(decision.data.projects);
+const supersededBy = decision.data.supersededBy ? await getEntry(decision.data.supersededBy) : undefined;
+const { Content } = await render(decision);
+---
+
+<Base title={title} description={summary}>
+	<PageTitle kicker="Decision" title={title} lede={summary}>
+		<dl class="facts">
+			<div>
+				<dt class="label">Status</dt>
+				<dd><Lamp colour={decisionLamp[status]} label={status} showLabel /></dd>
+			</div>
+			<div>
+				<dt class="label">Decided</dt>
+				<dd><FormattedDate date={date} /></dd>
+			</div>
+			{
+				projects.length > 0 && (
+					<div>
+						<dt class="label">Affects</dt>
+						<dd>
+							{projects.map((p, i) => (
+								<>
+									{i > 0 && ', '}
+									<a href={`/projects/${p.id}/`}>{p.data.title}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				)
+			}
+		</dl>
+		{
+			supersededBy && (
+				<p class="superseded plate">
+					Superseded by <a href={`/decisions/${supersededBy.id}/`}>{supersededBy.data.title}</a>.
+				</p>
+			)
+		}
+	</PageTitle>
+
+	<div class="prose">
+		<Content />
+	</div>
+</Base>
+
+<style>
+	.facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 2.5rem;
+		margin: 1.5rem 0 0;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rule);
+	}
+	.facts dt {
+		margin-bottom: 0.2rem;
+	}
+	.facts dd {
+		margin: 0;
+	}
+	.superseded {
+		margin-top: 1.25rem;
+		border-left: 3px solid var(--lamp-red);
+	}
+</style>

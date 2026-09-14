@@ -1,0 +1,73 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	posts: CollectionEntry<'log'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+{
+	posts.length === 0 ? (
+		<p class="muted">Nothing logged yet.</p>
+	) : (
+		<ol class="posts">
+			{posts.map((post) => (
+				<li>
+					<FormattedDate date={post.data.pubDate} />
+					<div>
+						<a href={`/log/${post.id}/`}>{post.data.title}</a>
+						{post.data.draft && <span class="label draft">Draft</span>}
+						<p class="muted">{post.data.description}</p>
+					</div>
+				</li>
+			))}
+		</ol>
+	)
+}
+
+<style>
+	.posts {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		display: grid;
+		grid-template-columns: 7.5rem 1fr;
+		gap: 0.25rem 1rem;
+		padding-block: 0.9rem;
+		border-bottom: 1px solid var(--rule);
+	}
+	li:first-child {
+		padding-top: 0;
+	}
+	li time {
+		color: var(--ink-muted);
+		padding-top: 0.1rem;
+	}
+	a {
+		font-weight: 600;
+		color: var(--ink);
+		text-decoration: none;
+	}
+	a:hover {
+		color: var(--accent);
+		text-decoration: underline;
+	}
+	p {
+		margin: 0.2rem 0 0;
+		font-size: 0.95rem;
+	}
+	.draft {
+		margin-left: 0.5rem;
+		color: var(--lamp-amber);
+	}
+	@media (max-width: 34rem) {
+		li {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

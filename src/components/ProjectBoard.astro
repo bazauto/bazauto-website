@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { projectLamp } from '../lib/status';
+import Lamp from './Lamp.astro';
+
+interface Props {
+	projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="board">
+	{
+		projects.map((p) => (
+			<li class="plate">
+				<div class="top">
+					<span class="label">{p.data.platform}</span>
+					<Lamp colour={projectLamp[p.data.status]} label={p.data.status} showLabel />
+				</div>
+				<h3>
+					<a href={`/projects/${p.id}/`}>{p.data.title}</a>
+				</h3>
+				<p>{p.data.summary}</p>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.board {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+	.top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	h3 {
+		margin: 0.6rem 0 0.35rem;
+		font-size: 1.3rem;
+	}
+	h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+	/* Whole plate is the click target. */
+	h3 a::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+	}
+	li:hover {
+		border-color: var(--track);
+	}
+	li:focus-within {
+		outline: 2px solid var(--route);
+		outline-offset: 2px;
+	}
+	h3 a:focus-visible {
+		outline: none;
+	}
+	p {
+		margin: 0;
+		font-size: 0.95rem;
+		color: var(--ink-muted);
+	}
+</style>

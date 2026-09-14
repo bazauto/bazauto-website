@@ -1,0 +1,82 @@
+---
+import DecisionList from '../components/DecisionList.astro';
+import PostList from '../components/PostList.astro';
+import ProjectBoard from '../components/ProjectBoard.astro';
+import TrackDiagram from '../components/TrackDiagram.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Base from '../layouts/Base.astro';
+import { getDecisions, getPosts, getProjects } from '../lib/content';
+
+const [posts, projects, decisions] = await Promise.all([getPosts(), getProjects(), getDecisions()]);
+---
+
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="hero">
+		<div class="intro">
+			<p class="label">Westgate Hollow</p>
+			<h1>A model railway, and the control system that runs it</h1>
+			<p class="lede">
+				A working record of what I'm building, how far it has got, and the reasons behind the design decisions.
+			</p>
+		</div>
+		<div class="plate diagram-plate">
+			<TrackDiagram />
+		</div>
+	</section>
+
+	<div class="section-head">
+		<h2>Projects</h2>
+		<a href="/projects/">All projects</a>
+	</div>
+	<ProjectBoard projects={projects} />
+
+	<div class="columns">
+		<section>
+			<div class="section-head">
+				<h2>Latest log</h2>
+				<a href="/log/">Full log</a>
+			</div>
+			<PostList posts={posts.slice(0, 5)} />
+		</section>
+		<section>
+			<div class="section-head">
+				<h2>Recent decisions</h2>
+				<a href="/decisions/">All</a>
+			</div>
+			<DecisionList decisions={decisions.slice(0, 5)} />
+		</section>
+	</div>
+</Base>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+		gap: 2rem;
+		align-items: center;
+		padding-block: 1rem 0.5rem;
+	}
+	.intro .label {
+		color: var(--accent);
+		margin: 0 0 0.5rem;
+	}
+	.lede {
+		font-size: 1.15rem;
+		color: var(--ink-muted);
+		margin: 0;
+	}
+	.diagram-plate {
+		padding: 1.5rem 1rem;
+		background: var(--panel-sunken);
+	}
+	.columns {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+		gap: 0 2.5rem;
+	}
+	@media (max-width: 52rem) {
+		.hero {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

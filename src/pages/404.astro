@@ -1,0 +1,18 @@
+---
+import Lamp from '../components/Lamp.astro';
+import PageTitle from '../components/PageTitle.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="This page does not exist.">
+	<PageTitle kicker="404" title="Signal at danger">
+		<p class="stop"><Lamp colour="red" label="Stop" showLabel /></p>
+		<p>There's nothing at this address. Try the <a href="/">home page</a> or the <a href="/log/">log</a>.</p>
+	</PageTitle>
+</Base>
+
+<style>
+	.stop {
+		margin: 1rem 0;
+	}
+</style>

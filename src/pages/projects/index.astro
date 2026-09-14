@@ -1,0 +1,14 @@
+---
+import PageTitle from '../../components/PageTitle.astro';
+import ProjectBoard from '../../components/ProjectBoard.astro';
+import Base from '../../layouts/Base.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+const description = 'The layout itself and the software and hardware that control it.';
+---
+
+<Base title="Projects" description={description}>
+	<PageTitle kicker="Projects" title="Projects" lede={description} />
+	<ProjectBoard projects={projects} />
+</Base>

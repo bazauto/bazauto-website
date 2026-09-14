@@ -1,0 +1,40 @@
+version: 2
+
+updates:
+  # GitHub Actions used by .github/workflows/ci.yml. Pinned major tags go stale
+  # quietly: a deprecated runner image or action version fails CI on an unrelated
+  # PR, which is the worst time to find out.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # npm. Grouped and monthly so routine bumps don't bury security PRs; security
+  # advisories are separate from this schedule and still arrive immediately.
+  #
+  # Majors are excluded: an Astro major is a migration with its own testing, not
+  # something to review as a dependency bump.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+    groups:
+      production:
+        dependency-type: production
+        update-types: ["minor", "patch"]
+      development:
+        dependency-type: development
+        update-types: ["minor", "patch"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

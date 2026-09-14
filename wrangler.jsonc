@@ -1,0 +1,14 @@
+// Cloudflare Worker serving the built site as static assets. No Worker script:
+// every request is answered from ./dist. See docs/deploy.md.
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "bazauto-website",
+	"compatibility_date": "2026-09-14",
+	"assets": {
+		"directory": "./dist",
+		// Unknown paths get dist/404.html with a real 404 status.
+		"not_found_handling": "404-page",
+		"html_handling": "force-trailing-slash"
+	},
+	"routes": [{ "pattern": "www.bazautomation.com", "custom_domain": true }]
+}

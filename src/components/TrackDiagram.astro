@@ -1,0 +1,85 @@
+---
+/**
+ * Decorative mimic-panel track diagram for the home page hero: a main line
+ * with a loop, a siding, and the four software projects as lamps on the route.
+ * Purely decorative (aria-hidden); the project board below carries the real
+ * information.
+ */
+---
+
+<svg class="diagram" viewBox="0 0 640 150" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+	<!-- dim, unrouted track -->
+	<g class="track dim">
+		<!-- loop, rejoining the main line -->
+		<path d="M120 75 L150 110 H460 L495 75" />
+		<!-- siding off the main line -->
+		<path d="M530 75 L560 45 H640" />
+	</g>
+	<!-- set route -->
+	<g class="track route">
+		<path d="M0 75 H580 L610 110 H640" />
+	</g>
+	<!-- block section joints -->
+	<g class="joint">
+		<path d="M60 68 V82" />
+		<path d="M250 68 V82" />
+		<path d="M380 68 V82" />
+		<path d="M515 68 V82" />
+	</g>
+	<!-- station lamps -->
+	<g class="lamps">
+		<circle class="on" cx="190" cy="75" r="6" />
+		<circle class="on" cx="315" cy="75" r="6" />
+		<circle class="on" cx="450" cy="75" r="6" />
+		<circle class="amber" cx="300" cy="110" r="6" />
+	</g>
+	<g class="tags">
+		<text x="190" y="52">ORCH</text>
+		<text x="315" y="52">DCC</text>
+		<text x="450" y="52">FDBK</text>
+		<text x="300" y="138">THROTTLE</text>
+	</g>
+</svg>
+
+<style>
+	.diagram {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 11rem;
+	}
+	.track {
+		fill: none;
+		stroke-linecap: square;
+	}
+	.dim {
+		stroke: var(--track-dim);
+		stroke-width: 5;
+	}
+	.route {
+		stroke: var(--route);
+		stroke-width: 6;
+	}
+	.joint {
+		stroke: var(--panel);
+		stroke-width: 4;
+	}
+	.lamps circle {
+		stroke: var(--panel);
+		stroke-width: 3;
+	}
+	.lamps .on {
+		fill: var(--lamp-green);
+	}
+	.lamps .amber {
+		fill: var(--lamp-amber);
+	}
+	.tags text {
+		font-family: var(--font-label);
+		font-weight: 600;
+		font-size: 13px;
+		letter-spacing: 0.14em;
+		fill: var(--ink-muted);
+		text-anchor: middle;
+	}
+</style>

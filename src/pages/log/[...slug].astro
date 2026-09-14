@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import { type CollectionEntry, getEntries, render } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/content';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return posts.map((post, i) => ({
+		params: { slug: post.id },
+		// posts are newest first, so the next-newer post is at i - 1
+		props: { post, newer: posts[i - 1], older: posts[i + 1] },
+	}));
+}
+
+interface Props {
+	post: CollectionEntry<'log'>;
+	newer?: CollectionEntry<'log'>;
+	older?: CollectionEntry<'log'>;
+}
+
+const { post, newer, older } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, heroAlt, tags, draft } = post.data;
+const projects = await getEntries(post.data.projects);
+const { Content } = await render(post);
+---
+
+<Base title={title} description={description} image={heroImage}>
+	<article>
+		<header class="post-head">
+			<p class="label">
+				<a href="/log/">Log</a> · <FormattedDate date={pubDate} />
+				{updatedDate && <span>· updated <FormattedDate date={updatedDate} /></span>}
+				{draft && <span class="draft">· Draft</span>}
+			</p>
+			<h1>{title}</h1>
+			<p class="lede">{description}</p>
+			{
+				(projects.length > 0 || tags.length > 0) && (
+					<ul class="chips">
+						{projects.map((p) => (
+							<li>
+								<a href={`/projects/${p.id}/`}>{p.data.title}</a>
+							</li>
+						))}
+						{tags.map((t) => (
+							<li class="tag">{t}</li>
+						))}
+					</ul>
+				)
+			}
+		</header>
+
+		{heroImage && heroAlt && <Image class="hero" src={heroImage} alt={heroAlt} width={1360} priority />}
+
+		<div class="prose">
+			<Content />
+		</div>
+	</article>
+
+	<nav class="pager" aria-label="More log posts">
+		{
+			older ? (
+				<a href={`/log/${older.id}/`} rel="prev">
+					<span class="label">Older</span>
+					{older.data.title}
+				</a>
+			) : (
+				<span />
+			)
+		}
+		{
+			newer && (
+				<a class="newer" href={`/log/${newer.id}/`} rel="next">
+					<span class="label">Newer</span>
+					{newer.data.title}
+				</a>
+			)
+		}
+	</nav>
+</Base>
+
+<style>
+	.post-head {
+		max-width: var(--measure);
+		margin-bottom: 2rem;
+	}
+	.post-head .label {
+		margin: 0 0 0.5rem;
+	}
+	.post-head .label a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	.draft {
+		color: var(--lamp-amber);
+	}
+	.lede {
+		font-size: 1.15rem;
+		color: var(--ink-muted);
+	}
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		list-style: none;
+		padding: 0;
+		margin: 1rem 0 0;
+	}
+	.chips li {
+		font-family: var(--font-label);
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		border: 1px solid var(--rule);
+		border-radius: 999px;
+		padding: 0.1rem 0.65rem;
+	}
+	.chips a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+	.chips .tag {
+		color: var(--ink-muted);
+		border-style: dashed;
+	}
+	.hero {
+		display: block;
+		width: 100%;
+		max-width: var(--wide);
+		height: auto;
+		margin-bottom: 2.5rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--rule);
+	}
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		max-width: var(--measure);
+		margin-top: 4rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule);
+	}
+	.pager a {
+		display: flex;
+		flex-direction: column;
+		max-width: 48%;
+		color: var(--ink);
+		text-decoration: none;
+		font-weight: 600;
+	}
+	.pager a:hover {
+		color: var(--accent);
+	}
+	.pager .newer {
+		text-align: right;
+		margin-left: auto;
+	}
+</style>

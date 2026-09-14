@@ -1,0 +1,88 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import DecisionList from '../../components/DecisionList.astro';
+import Lamp from '../../components/Lamp.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import PostList from '../../components/PostList.astro';
+import Base from '../../layouts/Base.astro';
+import { getDecisions, getPosts, getProjects, mentionsProject } from '../../lib/content';
+import { projectLamp } from '../../lib/status';
+
+export async function getStaticPaths() {
+	const projects = await getProjects();
+	return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, platform, repo } = project.data;
+const { Content } = await render(project);
+
+const posts = (await getPosts()).filter((p) => mentionsProject(p, project.id));
+const decisions = (await getDecisions()).filter((d) => mentionsProject(d, project.id));
+---
+
+<Base title={title} description={summary}>
+	<PageTitle kicker="Project" title={title} lede={summary}>
+		<dl class="facts">
+			<div>
+				<dt class="label">Status</dt>
+				<dd><Lamp colour={projectLamp[status]} label={status} showLabel /></dd>
+			</div>
+			<div>
+				<dt class="label">Platform</dt>
+				<dd>{platform}</dd>
+			</div>
+			{
+				repo && (
+					<div>
+						<dt class="label">Source</dt>
+						<dd>
+							<a href={repo}>{repo.replace('https://github.com/', '')}</a>
+						</dd>
+					</div>
+				)
+			}
+		</dl>
+	</PageTitle>
+
+	<div class="prose">
+		<Content />
+	</div>
+
+	<div class="columns">
+		<section>
+			<div class="section-head"><h2>Decisions</h2></div>
+			<DecisionList decisions={decisions} />
+		</section>
+		<section>
+			<div class="section-head"><h2>Log</h2></div>
+			<PostList posts={posts} />
+		</section>
+	</div>
+</Base>
+
+<style>
+	.facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 2.5rem;
+		margin: 1.5rem 0 0;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rule);
+	}
+	.facts dt {
+		margin-bottom: 0.2rem;
+	}
+	.facts dd {
+		margin: 0;
+	}
+	.columns {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+		gap: 0 2.5rem;
+	}
+</style>

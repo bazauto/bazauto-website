@@ -1,0 +1,36 @@
+---
+interface Props {
+	/** Small engraved label above the heading, e.g. the section name. */
+	kicker: string;
+	title: string;
+	lede?: string;
+}
+
+const { kicker, title, lede } = Astro.props;
+---
+
+<header class="page-title">
+	<p class="label">{kicker}</p>
+	<h1>{title}</h1>
+	{lede && <p class="lede">{lede}</p>}
+	<slot />
+</header>
+
+<style>
+	.page-title {
+		max-width: var(--measure);
+		margin-bottom: 2.5rem;
+	}
+	.label {
+		margin: 0 0 0.4rem;
+		color: var(--accent);
+	}
+	h1 {
+		margin-bottom: 0.4em;
+	}
+	.lede {
+		font-size: 1.15rem;
+		color: var(--ink-muted);
+		margin: 0;
+	}
+</style>

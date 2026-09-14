@@ -1,8 +1,10 @@
 # bazauto-website
 
 Static Astro 7 site for www.bazautomation.com, deployed by Cloudflare Workers Builds (see `docs/deploy.md`).
-A personal engineering record of the Westgate Hollow layout and its four control-stack repos. The audience is
-the owner first, so favour accuracy and reasoning over polish.
+A personal engineering record of the Westgate Hollow test layout and the projects around it: the four control-stack
+repos (`layout-orchestration`, `PicoDCC`, `layout-feedback`, `esp-layout-controller`) and the `block-detection`
+PCB. The audience is the owner first, so favour accuracy and reasoning over polish. Westgate Hollow is fictional,
+not based on any prototype.
 
 ## Commands
 

@@ -31,6 +31,9 @@ Everything lives in `src/content/` as Markdown. The frontmatter for each collect
 | FAQ | `faq/` | `/faq/#<file>` | `order` controls position. |
 
 Log posts and decisions reference projects by file name (`projects: [picodcc]`). An unknown name fails the build.
+Both also take an optional `sources` list of URLs (PRs, issues, commits, docs in the project repos) recording what the
+piece was written from. It isn't rendered; the `/site-post` skill (`.claude/skills/site-post/`) uses it to skip work
+that has already been written up.
 
 ### Images
 

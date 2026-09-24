@@ -8,6 +8,12 @@ export const DECISION_STATUSES = ['accepted', 'proposed', 'superseded'] as const
 
 const projectRefs = z.array(reference('projects')).default([]);
 
+/**
+ * Where a piece came from: PR, issue, commit or doc URLs in the project repos. Not rendered; the `site-post`
+ * skill reads it to know what has already been written up.
+ */
+const sources = z.array(z.url()).default([]);
+
 /** Build log / blog. One file per post: `src/content/log/YYYY-MM-DD-slug.md`. */
 const log = defineCollection({
 	loader: glob({ base: './src/content/log', pattern: '**/*.{md,mdx}' }),
@@ -23,6 +29,7 @@ const log = defineCollection({
 				heroImage: image().optional(),
 				heroAlt: z.string().optional(),
 				draft: z.boolean().default(false),
+				sources,
 			})
 			.refine((d) => !d.heroImage || d.heroAlt, {
 				message: 'heroAlt is required when heroImage is set',
@@ -54,6 +61,7 @@ const decisions = defineCollection({
 		status: z.enum(DECISION_STATUSES),
 		projects: projectRefs,
 		supersededBy: reference('decisions').optional(),
+		sources,
 	}),
 });
 
